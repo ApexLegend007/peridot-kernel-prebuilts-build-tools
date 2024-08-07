@@ -27,6 +27,12 @@ import_libraries(
     visibility = ["//visibility:public"],
 )
 
+filegroup(
+    name = "linux_x86_runpath",
+    srcs = ["linux-x86/lib64"],
+    visibility = ["//build/kernel/kleaf:__subpackages__"],
+)
+
 import_libraries(
     name = "linux_x86_libcrypto",
     hdrs = glob(["linux-x86/include/openssl/*.h"]),
