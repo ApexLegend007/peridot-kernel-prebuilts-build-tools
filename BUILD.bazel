@@ -15,6 +15,27 @@ filegroup(
     visibility = ["//visibility:public"],
 )
 
+filegroup(
+    name = "linux_musl-x86-libs",
+    srcs = glob(["linux_musl-x86/lib64/*.so"]),
+    visibility = ["//visibility:private"],
+)
+
+# Used in prebuilt_tool()
+alias(
+    name = "libs",
+    actual = select({
+        "//build/kernel/kleaf/platforms/libc:glibc": ":linux-x86-libs",
+        "//build/kernel/kleaf/platforms/libc:musl": ":linux_musl-x86-libs",
+    }),
+    target_compatible_with = select({
+        "//build/kernel/kleaf/platforms/libc:glibc": [],
+        "//build/kernel/kleaf/platforms/libc:musl": [],
+        "//conditions:default": ["@platforms//:incompatible"],
+    }),
+    visibility = ["//visibility:private"],
+)
+
 import_libraries(
     name = "linux_x86_imported_libs",
     hdrs = glob(["linux-x86/include/**/*.h"]),
