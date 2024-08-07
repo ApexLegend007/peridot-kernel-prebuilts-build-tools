@@ -190,6 +190,10 @@ prebuilt_tool(
 
 prebuilt_tool(
     name = "swig",
+    data = select({
+        "//build/kernel/kleaf/platforms/libc:glibc": glob(["linux-x86/share/swig/**"]),
+        "//build/kernel/kleaf/platforms/libc:musl": glob(["linux_musl-x86/share/swig/**"]),
+    }),
     visibility = ["//build/kernel:__subpackages__"],
 )
 
