@@ -92,8 +92,31 @@ import_libraries(
     target_compatible_with = [
         "@platforms//os:linux",
         "@platforms//cpu:x86_64",
+        "//build/kernel/kleaf/platforms/libc:glibc",
     ],
-    visibility = ["//visibility:public"],
+    visibility = ["//visibility:private"],
+)
+
+import_libraries(
+    name = "linux_x86_musl_libcrypto",
+    hdrs = glob(["linux_musl-x86/include/openssl/*.h"]),
+    shared_libraries = ["linux_musl-x86/lib64/libcrypto-host.so"],
+    strip_include_prefix = "linux_musl-x86/include",
+    target_compatible_with = [
+        "@platforms//os:linux",
+        "@platforms//cpu:x86_64",
+        "//build/kernel/kleaf/platforms/libc:musl",
+    ],
+    visibility = ["//visibility:private"],
+)
+
+alias(
+    name = "libcrypto",
+    actual = select({
+        "//build/kernel/kleaf/platforms/libc:glibc": ":linux_x86_libcrypto",
+        "//build/kernel/kleaf/platforms/libc:musl": ":linux_x86_musl_libcrypto",
+    }),
+    visibility = ["@toybox//:__subpackages__"],
 )
 
 filegroup(
