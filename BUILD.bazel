@@ -123,6 +123,16 @@ filegroup(
     ],
 )
 
+filegroup(
+    name = "libc_musl_file",
+    srcs = ["sysroots/x86_64-unknown-linux-musl/lib/libc_musl.so"],
+    target_compatible_with = [
+        "@platforms//os:linux",
+        "@platforms//cpu:x86_64",
+    ],
+    visibility = ["@kleaf_clang_toolchain//:__subpackages__"],
+)
+
 prebuilt_tool(
     name = "avbtool",
     visibility = ["//build/kernel:__subpackages__"],
