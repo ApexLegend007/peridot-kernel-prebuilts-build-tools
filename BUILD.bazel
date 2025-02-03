@@ -241,6 +241,11 @@ prebuilt_tool(
 )
 
 prebuilt_tool(
+    name = "mkdtboimg",
+    visibility = ["//visibility:public"],
+)
+
+prebuilt_tool(
     name = "mkdtimg",
     visibility = ["//build/kernel:__subpackages__"],
 )
