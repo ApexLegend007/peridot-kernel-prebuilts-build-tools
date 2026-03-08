@@ -2,6 +2,14 @@ load("@rules_pkg//pkg:mappings.bzl", "pkg_files", "strip_prefix")
 load(":cc.bzl", "import_libraries")
 load(":prebuilt_tool.bzl", "prebuilt_tool")
 
+# Source files referenced directly by msm-kernel bzl files need explicit
+# visibility since Bazel restricts auto-generated source file targets to the
+# declaring package by default.
+exports_files(
+    glob(["linux-x86/bin/*"]),
+    visibility = ["//visibility:public"],
+)
+
 _SHARED_LIBS = glob(["linux-x86/lib64/*.so"])
 
 _MUSL_SHARED_LIBS = glob(["linux_musl-x86/lib64/*.so"])
